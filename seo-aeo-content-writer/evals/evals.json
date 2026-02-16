@@ -1,0 +1,52 @@
+{
+  "skill_name": "seo-aeo-content-writer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a German SEO blog post targeting the keyword 'Webflow Agentur Schweiz' for a Webflow Premium Partner consultancy based in Zurich. Target audience: Swiss SMEs looking to redesign their website. Include FAQ and schema markup.",
+      "expected_output": "A complete German-language blog post with meta title, meta description, full article content, FAQ section, JSON-LD schema, and optimization checklist.",
+      "files": [],
+      "assertions": [
+        "Primary keyword 'Webflow Agentur Schweiz' appears in H1",
+        "Primary keyword appears in first 100 words",
+        "Meta description is under 155 characters",
+        "Content uses formal 'Sie' form",
+        "FAQ section contains at least 4 Q&A pairs",
+        "Each FAQ answer is 40–80 words and self-contained",
+        "FAQPage JSON-LD schema is included",
+        "Internal link placeholders are present",
+        "Optimization checklist is included at the end",
+        "Content uses Swiss German conventions (ss instead of ß)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write an English SEO service page for 'Webflow Migration Service' targeting companies wanting to switch from WordPress to Webflow. Transactional intent, lead generation CTA, ~800 words.",
+      "expected_output": "A service landing page with meta data, benefit-led copy, clear CTA, FAQ, Service schema, and optimization checklist.",
+      "files": [],
+      "assertions": [
+        "Primary keyword 'Webflow Migration' appears in H1",
+        "Page has a clear call-to-action",
+        "Content is 700–900 words (appropriate for transactional intent)",
+        "FAQ section is included",
+        "Service schema JSON-LD is provided",
+        "Benefits are highlighted (not just features)",
+        "Meta description is under 155 characters",
+        "Optimization checklist is included"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I have an existing blog post about SEO for Webflow sites. Here's the URL: https://webflow.com/blog/webflow-seo — analyze it and rewrite the intro and FAQ section to better target AI Overviews and featured snippets.",
+      "expected_output": "An improved intro paragraph (40–60 words answering the query directly) and an improved FAQ section with 4–6 self-contained Q&A pairs, plus AEO improvement notes.",
+      "files": [],
+      "assertions": [
+        "Intro answers the primary query directly in 40–60 words",
+        "FAQ answers are self-contained (understandable without reading the article)",
+        "Output includes explanation of AEO improvements made",
+        "FAQPage schema suggestion is included",
+        "Content improvements are clearly structured and ready to implement"
+      ]
+    }
+  ]
+}
