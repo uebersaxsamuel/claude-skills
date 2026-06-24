@@ -7,7 +7,7 @@ description: >
   "nested collections Webflow", "HTMX Webflow CMS", "vdx Webflow".
   For general pSEO strategy see programmatic-seo. For auditing see seo-audit.
 metadata:
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Programmatic SEO – Webflow Implementation
@@ -138,11 +138,24 @@ Data Source (Airtable/Google Sheets)
 
 ---
 
-## Nested Collections (Without Finsweet)
+## Nested Collections (Native & Third-Party)
 
-Webflow's native CMS lists cannot load items from a *different* collection dynamically on a Collection Template page. Two solutions:
+Webflow natively supports up to **3 levels** of nesting and **10 nested collection lists per page**, with up to **100 items per nested parent**. However, nested lists require a Multi-Reference field to link the child collection — and Reference fields are capped at 5 total per collection.
 
-### Option A: HTMX
+For cases that exceed native limits or require cross-collection data without Multi-Ref fields, use one of the solutions below.
+
+### Option A: Finsweet List Nest
+
+The easiest solution for nesting beyond native limits. Attribute-based, no backend needed.
+
+```
+fs-list-nest-element="list"   → on the Collection List to nest
+fs-list-nest-element="item"   → on each Collection List Item
+```
+
+**Best for**: Displaying tags, categories, or related items inside a Collection List on static pages, beyond the native 10-nested-lists-per-page cap.
+
+### Option B: HTMX
 
 Load related items from another collection via a Webflow-hosted endpoint or proxy.
 
@@ -164,7 +177,7 @@ Load related items from another collection via a Webflow-hosted endpoint or prox
 
 **Best for**: Related items, "You might also like", cross-collection lookups.
 
-### Option B: VisualDX Library
+### Option C: VisualDX Library
 
 [VisualDX](https://www.visualdx.dev/) ist eine kostenlose, attribute-basierte JavaScript Library speziell für Webflow. Keine Backend-Proxy nötig — alles läuft über `vdx-*` Custom Attributes direkt im Webflow Designer.
 
@@ -194,13 +207,13 @@ Value: card
 
 **Comparison**:
 
-| | HTMX | VisualDX |
-|--|------|----------|
-| Backend needed | Yes (proxy) | No |
-| Setup complexity | Medium | Low |
-| Flexibilität | Sehr hoch | Medium |
-| Performance | Abhängig vom Proxy | Schnell (client-side) |
-| Best for | Custom logic, API calls | Nested CMS Lists |
+| | Finsweet List Nest | HTMX | VisualDX |
+|--|------|---------|----------|
+| Backend needed | No | Yes (proxy) | No |
+| Setup complexity | Low | Medium | Low |
+| Flexibilität | Medium | Sehr hoch | Medium |
+| Performance | Schnell (client-side) | Abhängig vom Proxy | Schnell (client-side) |
+| Best for | Tags/Categories auf Static Pages | Custom logic, API calls | Nested CMS Lists auf Templates |
 
 ---
 
@@ -232,24 +245,29 @@ Webflow bietet keinen Noindex-Switch mehr auf Item-Ebene. Stattdessen:
 
 Use a Code Embed element inside the Collection Template to inject JSON-LD dynamically.
 
-### Example: LocalBusiness Schema
+### Example: BlogPosting Schema with Author Reference
 
 ```html
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "{{wf-field:name}}",
-  "description": "{{wf-field:short-description}}",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "{{wf-field:city}}",
-    "addressCountry": "{{wf-field:country}}"
+  "@type": "BlogPosting",
+  "headline": "{{wf-field:name}}",
+  "description": "{{wf-field:meta-description}}",
+  "datePublished": "{{wf-field:published-on}}",
+  "dateModified": "{{wf-field:updated-on}}",
+  "url": "https://yoursite.com/blog/{{wf-field:slug}}",
+  "author": {
+    "@type": "Person",
+    "name": "{{wf-field:author-name}}",
+    "url": "https://yoursite.com/authors/{{wf-field:author-slug}}"
   },
-  "url": "https://yoursite.com/locations/{{wf-field:slug}}"
+  "image": "{{wf-field:og-image}}"
 }
 </script>
 ```
+
+**Note on Author Reference fields**: `{{wf-field:author-name}}` pulls from a **Reference field** bound to an Authors collection. In Webflow, you can access nested fields from a Reference directly in the Embed using dot-notation is **not** supported — instead, bind the Author's Name field via a **connected text element** and read it via JS, or duplicate the Author Name as a plain text field on the Blog Post item for easier schema binding.
 
 **Important**: Webflow's `{{wf-field:}}` syntax only works inside **Embed** elements on Collection Templates—not in custom code in `<head>`.
 
@@ -285,15 +303,28 @@ On each Spoke page (Template):
 
 ## Webflow-Specific Limits & Constraints
 
+### CMS Item Limits (by Plan)
+
+| Plan | CMS Items | Collections |
+|------|-----------|-------------|
+| CMS | 2,000 | 20 |
+| Business | 10,000 (up to 20,000 with paid add-ons) | 40 |
+| Enterprise | Custom | Custom |
+
+### Hard Limits (plan-independent)
+
 | Limit | Value | Workaround |
 |-------|-------|-----------|
-| Items per collection | 10,000 | Split into multiple collections |
-| Collections per site | 40 | Plan architecture carefully |
-| Reference fields per item | 1 (Reference) | Use Multi-Reference or restructure |
-| Multi-Reference items | 25 per field | Flatten data if needed |
-| Collection list per page | 20 | Pagination or HTMX/vdx for more |
-| Nesting depth (native) | 1 level | Use HTMX or vdx for deeper nesting |
+| Fields per collection | 60 (all types combined) | Split into multiple collections with references |
+| Reference + Multi-Ref fields per collection | 5 total | Plan field architecture carefully |
+| Multi-Reference items per field | 25 | Flatten or use API-side joins |
+| Collection lists per page | 20 | HTMX / vdx / Finsweet CMS Load |
+| Items per collection list | 100 (without pagination) | Enable pagination or use Finsweet CMS Load |
+| Nested collection lists per page | 10 | Finsweet List Nest for more |
+| Nesting depth (native) | 3 levels | — |
+| Nested items per parent (native) | 100 | Finsweet List Nest for more |
 | CSV import (Rich Text) | Plain text only | Use Webflow API for formatted content |
+| API batch size | 100 items per call | Loop batches via Make.com / script |
 
 ---
 
