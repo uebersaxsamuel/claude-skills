@@ -1,5 +1,6 @@
 ---
 name: aeo-content-optimizer
+version: 1.0.1
 description: >
   Restructures existing content to rank in AI-generated answers from ChatGPT,
   Perplexity, Claude, and Google AI Overviews. Use this skill whenever a user
@@ -38,12 +39,39 @@ Each AI answer engine has different selection preferences:
 
 | Platform | What it favours |
 |---|---|
-| **Google AI Overviews** | Concise authoritative answers, E-E-A-T signals, schema markup, first-paragraph direct answers |
+| **Google AI Overviews** | See Google-specific section below |
 | **Perplexity** | Factual accuracy, numbered lists, cited data points, clear source attribution |
 | **ChatGPT** | Comprehensive context, conversational flow, definitions alongside facts |
 | **Claude** | Nuanced multi-perspective analysis, precise language, structured reasoning |
 
 Default to optimizing for all four unless the user specifies otherwise.
+
+---
+
+### 🔵 Google AI Overviews — Official Guidance (Google-specific only)
+
+Source: [Google Search Central AI Optimization Guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) (updated June 2026)
+
+**How Google AI selects content:**
+- **RAG (Retrieval-Augmented Generation):** Google's AI Overviews are grounded in the core Search index. A page must be **indexed and snippet-eligible** to appear — this is a hard technical requirement.
+- **Query fan-out:** Google generates concurrent sub-queries from the original search. Content with sufficient depth and topical coverage is more likely to be retrieved across multiple fan-out queries.
+
+**What matters for Google AI (Google-specific):**
+- Unique, non-commodity content with a clear point of view — first-hand experience, expert takes, original analysis
+- Helpful, people-first content (E-E-A-T signals remain relevant)
+- Clear page structure with headings for human readability
+- High-quality images and video (these surface separately in AI responses)
+- Good page experience and crawlability
+- Semantic HTML helps (but perfect code is not required)
+
+**What does NOT matter for Google AI — do NOT recommend these to Google clients:**
+- ❌ **llms.txt files** — Google explicitly ignores them; creates no benefit
+- ❌ **"Chunking" content** — Google systems understand multi-topic pages; no chunking needed
+- ❌ **Rewriting content specifically for AI phrasing** — Google understands synonyms and intent
+- ❌ **Seeking inauthentic mentions** — treated as spam signals, not citation signals
+- ❌ **Over-focusing on structured data for AI** — schema markup is not required for AI Overviews; continue using it for rich results only
+
+> ⚠️ These "don'ts" apply **exclusively to Google**. For Perplexity, ChatGPT, and Claude, structured data, chunking, and citation-style mentions may still be beneficial.
 
 ---
 
