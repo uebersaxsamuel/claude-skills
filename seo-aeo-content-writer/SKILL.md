@@ -1,5 +1,6 @@
 ---
 name: seo-aeo-content-writer
+version: 1.0.1
 description: >
   Creates fully SEO- and AEO-optimized articles, blog posts, landing page copy,
   and service pages. Use this skill whenever a user wants to write or improve
@@ -185,6 +186,8 @@ Always propose exactly **2 outgoing links** to credible external sources.
 | Brand blogs / agency articles | Low | Avoid unless primary source |
 | Forums, Reddit, Wikipedia | Low | Never as citation |
 
+**HTTPS rule:** Before including any URL, verify it uses `https://`. Never link to `http://` — replace or drop the link if the site doesn't redirect to HTTPS.
+
 Format in the deliverables:
 ```
 ## Outgoing Link Suggestions
@@ -321,6 +324,7 @@ A: [Direct 40–80 word answer]
 - [ ] 3 internal link placeholders added
 - [ ] 2 outgoing links verified and sourced
 - [ ] All statistics traced to primary source
+- [ ] All outgoing links verified as https:// (not http://)
 - [ ] Image alt text suggestions included
 ```
 
