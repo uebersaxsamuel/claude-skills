@@ -1,6 +1,6 @@
 ---
 name: aeo-content-optimizer
-version: 1.0.1
+version: 1.0.2
 description: >
   Restructures existing content to rank in AI-generated answers from ChatGPT,
   Perplexity, Claude, and Google AI Overviews. Use this skill whenever a user
@@ -81,6 +81,7 @@ Source: [Google Search Central AI Optimization Guide](https://developers.google.
 - Check if the content answers it directly within the first 60 words
 - If not: write a **Direct Answer Paragraph** (40–60 words) to place immediately after the H1
 - The Direct Answer Paragraph must: (a) answer the question completely, (b) include the primary keyword naturally, (c) avoid filler phrases like "In this article..."
+- **Readability target:** aim for a Flesch Reading Ease score of 80+ for standard content, 90+ for cornerstone/pillar content (per Webflow's AEO Maturity Model — highly readable content is disproportionately favoured by LLM answer extraction)
 
 ---
 
@@ -114,6 +115,8 @@ Make content easy for AI systems to extract and quote:
 - Ensure each entity is clearly defined on first mention
 - Cross-reference related entities to build semantic depth
 - Add entity context that helps AI systems understand relationships (e.g. "Perplexity, the AI-powered search engine founded in 2022...")
+- If schema markup is being touched: recommend **nested schema** over isolated types where the page relationship allows it (e.g. `Organization → WebPage → Article/FAQ`) — LLMs parse relationship-aware schema more reliably than flat, single-type markup
+- **Freshness signal:** if the page carries a visible "last updated" date, confirm it's accurate and prominent. 95% of ChatGPT citations reference pages updated within the last 10 months — recommend adding a visible update date if missing
 
 ---
 
@@ -144,7 +147,7 @@ Show exactly 2–3 specific sections that changed significantly. For each:
 - **Why:** one sentence explaining the AEO improvement
 
 ### 4. AEO Score
-Rate both versions on a 1–10 scale across four dimensions:
+Rate both versions on a 1–10 scale across five dimensions:
 
 | Dimension | Original | Optimized |
 |---|---|---|
@@ -152,6 +155,11 @@ Rate both versions on a 1–10 scale across four dimensions:
 | Structure Clarity | x/10 | x/10 |
 | Citation Readiness | x/10 | x/10 |
 | Entity Depth | x/10 | x/10 |
+| Freshness Signal | x/10 | x/10 |
 | **Overall** | **x/10** | **x/10** |
 
 Include 1–2 sentences on what would push the optimized score even higher.
+
+Optionally, close with one line naming where the optimized content now sits on
+Webflow's Content Maturity Model (Level 1 Keywords → Level 5 Personalisierte
+Antworten) — useful context for clients thinking beyond a single page.
