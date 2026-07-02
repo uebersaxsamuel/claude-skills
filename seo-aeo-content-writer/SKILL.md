@@ -1,6 +1,6 @@
 ---
 name: seo-aeo-content-writer
-version: 1.0.1
+version: 1.0.2
 description: >
   Creates fully SEO- and AEO-optimized articles, blog posts, landing page copy,
   and service pages. Use this skill whenever a user wants to write or improve
@@ -106,6 +106,15 @@ Adapt depth to intent:
 - Service / landing page: 600–1,200 words, scannable, benefit-led, strong CTA
 - Pillar page: 3,000+ words, covers all subtopics, links to cluster content
 
+**Cornerstone/cluster logic (for pillar pages):** if the piece is meant to
+anchor a topic cluster, treat it as the cornerstone — the one asset the
+rest of the cluster links back to (annual report, original research,
+comprehensive guide). Cornerstone content should map the full funnel
+(Awareness → Consideration → Purchase → Advocacy) and get scheduled for
+review every 3–6 months. Note the intended cluster/spoke pages in the
+outline so the user can plan internal linking (see internal-linking-strategist
+skill for the full hub-and-spoke mapping).
+
 ---
 
 ## Phase 4 — Writing Rules
@@ -144,6 +153,9 @@ AEO makes content quotable by AI systems. Apply these patterns:
    - Service page → `Service` + `LocalBusiness` schema
    - How-to → `HowTo` schema
    - Read `references/schema-templates.md` for ready-to-use JSON-LD snippets
+   - **Nest schema where the page relationship allows it**, rather than a single flat type — e.g. `Organization → WebPage → Article/FAQ`. Nested schema helps LLMs parse how the entities on the page relate to each other, not just what they are.
+
+6. **Author / E-E-A-T byline** — for blog posts, guides, and articles, always include an author bio block (name, credential/role, one-line expertise statement). This is a required field for E-E-A-T signalling, not optional — LLMs weight authored, attributable content more heavily than anonymous pages.
 
 ### Internal Linking
 
@@ -320,12 +332,14 @@ A: [Direct 40–80 word answer]
 - [ ] Primary keyword in first 100 words
 - [ ] Meta description under 155 chars
 - [ ] FAQ section included
-- [ ] Schema markup ready to implement
+- [ ] Schema markup ready to implement (nested where applicable)
 - [ ] 3 internal link placeholders added
 - [ ] 2 outgoing links verified and sourced
 - [ ] All statistics traced to primary source
 - [ ] All outgoing links verified as https:// (not http://)
 - [ ] Image alt text suggestions included
+- [ ] Author bio / byline included (blog, guide, article types)
+- [ ] Visible "last updated" date placeholder added
 ```
 
 ---
